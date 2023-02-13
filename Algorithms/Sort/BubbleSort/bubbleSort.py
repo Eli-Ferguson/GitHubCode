@@ -6,7 +6,6 @@ lenOfList = 100
 # Return a List of random integers between zero and current maxInt
 randomIntList = [ random.randint( 0, maxInt ) for _ in range( lenOfList ) ]
 
-
 def bubbleSort( List:list[int], ascending:bool ) :
     
     print( f'List Pre Sort:\n{List}')
@@ -25,5 +24,4 @@ def bubbleSort( List:list[int], ascending:bool ) :
                         
 
 # The list will be sorted according to the bool ascending
-# set parameter sleepTime to something less than 0.05 for list greater than 50
-bubbleSort( randomIntList, ascending=False )
+bubbleSort( randomIntList, ascending=True )
