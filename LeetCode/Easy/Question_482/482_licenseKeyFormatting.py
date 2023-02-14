@@ -1,5 +1,5 @@
-class Solution:
-
+class Solution:      
+    
     def licenseKeyFormatting(self, s: str, k: int) -> str:
 
         s = s.replace( '-','' )[::-1]
