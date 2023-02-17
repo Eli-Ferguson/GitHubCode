@@ -2,20 +2,23 @@
 #include <stdlib.h>
 #include <string.h>
 
+void arrPrint( int * arr, int len )
+{
+    printf("[ ");
+    for(int i = 0; i < len; i++ )
+    {
+        printf( "%d ", arr[i] );
+    } printf("]\n");
+}
 
 int * mergeStep( int * arr1, int arr1Len, int * arr2, int arr2Len)
 {
     int * retArr = calloc( arr1Len + arr2Len, sizeof( int ) );
 
-    // printf("%d %d %d\n", arr1[0], arr2[0], arr2[1] );
-
     int i = 0, j=0, k=0;
 
     for( ; j < arr1Len && k < arr2Len; i++ )
     {
-        printf( "i=%d\n", i );
-        printf( "\tarr1[%d]=%d arr2[%d]=%d\n", j, arr1[j], k, arr2[k] );
-
         if( arr1[j] < arr2[k] )
         {
             retArr[i] = arr1[j];
@@ -28,11 +31,8 @@ int * mergeStep( int * arr1, int arr1Len, int * arr2, int arr2Len)
         }
     }
 
-    printf( "i=%d j=%d k=%d\n", i, j, k );
-
     while( j < arr1Len )
     {
-        printf( "i=%d j=%d k=%d\n", i, j, k );
         retArr[i] = arr1[j];
         j++;
         i++;
@@ -40,70 +40,42 @@ int * mergeStep( int * arr1, int arr1Len, int * arr2, int arr2Len)
 
     while( k < arr2Len )
     {
-        printf( "i=%d j=%d k=%d\n", i, j, k );
-        retArr[i] = arr1[j];
-        j++;
+        retArr[i] = arr2[k];
+        k++;
         i++;
     }
 
-    printf("Ret Arr:\n\t");
-    for(int i = 0; i < ( arr1Len + arr2Len ); i++ )
-    {
-        printf( "%d ", retArr[i] );
-    } printf("\n");
+    printf("Partial Arr:\t");
+    arrPrint( retArr, arr1Len+arr2Len );
 
     return retArr;
 }
 
-int * mergeSplit( int * arr, int start, int arrLen )
+int * mergeSort( int * arr, int arrLen )
 {
-
-    printf( "Start : %d\nLen : %d\n", start, arrLen );
+    int low = 0, high = arrLen;
+    int mid = ( high - low ) / 2;
 
     if( arrLen == 1 )
     {
         return arr;
     }
-    else if( arrLen == 2 )
-    {
-        if( arr[0] > arr[1] )
-        {
-            int * ret = calloc( 2, sizeof( int ) );
-            ret[0] = arr[1];
-            ret[1] = arr[0];
-            return ret;
-        }
-        else
-        {
-            int * ret = calloc( 2, sizeof( int ) );
-            ret[0] = arr[0];
-            ret[1] = arr[1];
-            return ret;
-        }
-    }
 
-    int low = start, high = arrLen;
-    int mid = ( high - low ) / 2;
+    int * bottomHalf = mergeSort( &arr[low], mid-low );
 
-    printf( "Low : %d\nMid : %d\nHigh : %d\n\n", low, mid, high);
-
-    int * bottomHalf = mergeSplit( &arr[low], low, mid-low );
-    int * topHalf = mergeSplit( &arr[mid], mid, high-mid );
+    int * topHalf = mergeSort( &arr[mid], high-mid );
 
     return mergeStep( bottomHalf, mid-low, topHalf, high-mid );
 }
 
 int main()
 {
-    int arr[3] = {1,3,5};
-    int len = 3;
+    int arr[9] = {27, 43, 45, 76, 12, 84, 101, 8, 19};
+    int len = 9;
 
-    int arr2[3] = {2,4,6};
-    int len2 = 3;
-
-    mergeStep( arr, len, arr2, len2 );
-
-    // mergeSplit( arr, 0, len );
+    int * sorted = mergeSort( arr, len );
+    printf("Final Array:\t");
+    arrPrint( sorted, len );
 
     return 0;
 }
