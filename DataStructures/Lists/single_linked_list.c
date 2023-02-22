@@ -7,25 +7,17 @@ typedef struct node
     struct node *next;
 } node;
 
-node *removeNode( node *head, int value )
-{
-    node *prev = head;
-
-    while( head->next != NULL )
-    {
-        if( head->value == value )
-        {
-            prev->next = head->next;
-        }
-    }
-
-    return head;
-}
-
 node *pushNode( node *head, node *newNode );
 node *appendNode( node *head, node *newNode );
 node *createNode();
+
+node *removeNodeByValue( node *head, int value );
+node *removeNodeByIndex( node *current, int idx );
+
+int getUserVal();
+
 void printLL( node *head );
+void freeNode( node *NODE );
 
 int main()
 {
@@ -45,14 +37,18 @@ int main()
 
     printLL( head );
 
+    int valueToRemove = getUserVal();
+    // head = removeNodeByValue( head, valueToRemove );
+    head = removeNodeByIndex( head, valueToRemove );
+
+    printLL( head );
+
     return 0;
 }
 
 node *createNode()
 {
-    int userVal;
-    printf( "Enter A Value: " );
-    scanf( "%d", &userVal );
+    int userVal = getUserVal();
 
     node *newNode = ( node *)malloc( sizeof ( node ) );
     newNode->value = userVal;
@@ -82,6 +78,91 @@ node *appendNode( node *head, node *newNode )
     return head;
 }
 
+node *removeNodeByValue( node *current, int value )
+{
+
+    if( current->value == value )
+    {
+        printf( "\tValue %d removed from Linked List\n", value );
+
+        node *ret = current->next;
+        freeNode( current );
+
+        return ret;
+    }
+
+    node *head = current;
+    node *prev = head->next;
+
+    printf( "Target Val = %d\n", value );
+
+    while( current != NULL )
+    {
+        if( current->value == value )
+        {
+            printf( "\tValue %d removed from Linked List\n", value );
+            prev->next = current->next;
+            freeNode( current );
+            return head;
+        }
+
+        prev = current;
+        current = current->next;
+    }
+
+    printf( "\tValue %d not in Linked List\n", value );
+    return head;
+}
+
+node *removeNodeByIndex( node *current, int idx )
+{
+
+    if( idx == 0 )
+    {
+        printf( "\tValue %d removed from Linked List\n", idx );
+
+        if( current == NULL || current->next == NULL )
+        {
+            return NULL;
+        }
+        else
+        {
+            node *ret = current->next;
+            freeNode( current );
+
+            return ret;
+        }
+    }
+
+    node *head = current;
+    node *prev = head;
+    current = current->next;
+
+    for( int i = 1; current != NULL && i <= idx; i++ )
+    {
+        if( i == idx )
+        {
+            prev->next = current->next;
+            freeNode( current );
+            return head;
+        }
+        prev = current;
+        current = current->next;
+    }
+
+    printf( "\tValue %d not in Linked List\n", idx );
+    return head;
+}
+
+int getUserVal()
+{
+    int userVal;
+    printf( "Enter a Value: " );
+    scanf( "%d", &userVal);
+
+    return userVal;
+}
+
 void printLL( node *head )
 {
     while( head->next != NULL )
@@ -90,4 +171,11 @@ void printLL( node *head )
         head = head->next;
     }
     printf( "%d\n", head->value );
+}
+
+void freeNode( node *NODE )
+{
+    // free( NODE->value );
+    free( NODE->next );
+    free( NODE );
 }
