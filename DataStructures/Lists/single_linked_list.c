@@ -21,7 +21,7 @@ void freeNode( node *NODE );
 
 int main()
 {
-    node *head;
+    node *head = malloc( sizeof( node ) );
     head->next = NULL;
     head->value = 0;
 
@@ -175,7 +175,7 @@ void printLL( node *head )
 
 void freeNode( node *NODE )
 {
-    // free( NODE->value );
-    free( NODE->next );
+    // NODE->value = NULL;
+    NODE ->next = NULL;
     free( NODE );
 }
