@@ -29,7 +29,6 @@ int main()
 {
     int size = 5;
     
-    // Note as per the problem this list is sorted in non descending order
     int nums[] = {-4,-1,0,3,10};
 
     rotate( nums, 5, 3 );
