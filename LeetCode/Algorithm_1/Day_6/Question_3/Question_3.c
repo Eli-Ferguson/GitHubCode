@@ -39,5 +39,5 @@ int main()
     return 0;
 }
 
-//  Beats 43.47% Runtime, 3ms
-//  Beats 99.13% Memory, 5.7mb
+//  Beats 58.84% Runtime, 7ms
+//  Beats 21.59% Memory, 6.1mb
