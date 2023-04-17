@@ -27,16 +27,19 @@ int main()
 
     printLL( head );
 
+    printf( "Enter Append Value: " );
     node *newNode = createNode();
     appendNode( head, newNode );
 
     printLL( head );
 
+    printf( "Enter Push Value: " );
     node *newNode2 = createNode();
     head = pushNode( head, newNode2 );
 
     printLL( head );
 
+    printf( "Enter Del Index: " );
     int valueToRemove = getUserVal();
     // head = removeNodeByValue( head, valueToRemove );
     head = removeNodeByIndex( head, valueToRemove );
@@ -157,7 +160,6 @@ node *removeNodeByIndex( node *current, int idx )
 int getUserVal()
 {
     int userVal;
-    printf( "Enter a Value: " );
     scanf( "%d", &userVal);
 
     return userVal;
