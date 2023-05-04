@@ -6,12 +6,16 @@
 #         self.right = right
 class Solution:
     def replaceValueInTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        
-        if not root : return root
 
-        parentNodes = [ root ]
+        if not root : return root
+        
+        # Root is Always 0 
         root.val = 0
 
+        # Nodes from the depth above current
+        parentNodes = [ root ]
+
+        # Nodes at a depth
         currLevelNodes = []
 
         def BFS() :
@@ -19,9 +23,14 @@ class Solution:
             nonlocal parentNodes
             nonlocal currLevelNodes
             
+            # Initialize a list of len parents full of zeros
             currLevelNodes = [ 0 for _ in range( len( parentNodes ) ) ]
+
+            # Set current sum to 0
             currLvlSum = 0
 
+            # Check each parent node for children adjusting values for
+            # curr nodes and curr sum
             for i in range( len( parentNodes ) ) :
 
                 if parentNodes[ i ].left :
@@ -36,6 +45,8 @@ class Solution:
                     currLevelNodes[ i ] += val
                     currLvlSum += val
             
+            # For each parent node set the children values in-place to
+            # the curr lvl total sum - the children nodes sum
             for i in range( len( parentNodes ) ) :
 
                 if parentNodes[ i ].left :
@@ -43,7 +54,8 @@ class Solution:
 
                 if parentNodes[ i ].right :
                     parentNodes[ i ].right.val = currLvlSum - currLevelNodes[ i ]
-            
+
+            # Reset the parentnodes to the new child nodes
             tmp = []
 
             for parent in parentNodes :
@@ -52,13 +64,14 @@ class Solution:
                 if parent.right : tmp.append( parent.right )
             
             parentNodes = tmp
-            currLevelNodes = []
 
-        while parentNodes != [] :
+        # Iterate while there are still parentNodes
+        while parentNodes != [] : BFS()
 
-            BFS()
-
+        # Since we replace values in-place, return the original root
         return root
 
-# Beats 80.73% Runtime, 1367ms
+            
+
+# Beats 84.54% Runtime, 1347ms
 # Beats 100% Memory, 158.7mb
