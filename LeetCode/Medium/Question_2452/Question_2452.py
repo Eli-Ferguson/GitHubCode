@@ -22,3 +22,6 @@ class Solution:
         return words
 
 print( Solution.twoEditWords( super, ["word","note","ants","wood"], ["wood","joke","moat"] ) )
+
+# Beats 63.59% Runtime, 68ms
+# Beats 11.98% Memory, 16.4mb
