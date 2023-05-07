@@ -17,7 +17,7 @@ class Solution:
         if carry : return [ 1 ] + digits 
         else: return digits
         
-digits = [4,3,2,1]
+digits = [4,3,2,1,9]
 
 print( f'Plus One Array: {Solution.plusOne( super, digits )}' )
 
