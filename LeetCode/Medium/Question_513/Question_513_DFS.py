@@ -4,25 +4,28 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
-        
+
 class Solution:
     def findBottomLeftValue(self, root: TreeNode) -> int:
-        
-        level = []
 
         def DFS( root, depth ) :
-            if not root : return
 
-            if len( level ) == depth : level.append( [] ) 
+            LMV_LeftBranch, L_depth = root.val, depth
+            LMV_RightBranch, R_depth = root.val, depth
 
-            level[ depth ].append( root.val )
-
-            DFS( root.left, depth+1 )
-            DFS( root.right, depth+1 )
-
-        DFS( root, 0 )
-
-        return level[ -1 ][ 0 ]
+            if root.left :
+                LMV_LeftBranch, L_depth = DFS( root.left, depth+1 )
+            
+            if root.right :
+                LMV_RightBranch, R_depth = DFS( root.right, depth+1 )
+            
+            if L_depth >= R_depth :
+                return LMV_LeftBranch, L_depth
+            else :
+                return LMV_RightBranch, R_depth
+        
+        return DFS( root, 0 )[ 0 ]
+        
 
 Tree = TreeNode( 1 )
 Tree.left = TreeNode( 2 )
